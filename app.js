@@ -55,8 +55,6 @@ function show(viewId) {
   );
   el(viewId)?.classList.remove("hidden");
 
-  // поиск показываем только в списке товаров
-  el("search")?.classList.toggle("hidden", viewId !== "listView");
 }
 
 /* ---------- Главная: разделы ---------- */
@@ -298,17 +296,29 @@ el("homeBtn")?.addEventListener("click", () => show("homeView"));
 // Поиск — ищем в текущем (категория + подкатегория)
 el("search")?.addEventListener("input", (e) => {
   const q = (e.target.value || "").toLowerCase().trim();
-  const base = filterProducts(products, currentCategory, currentSubcategory);
 
-  const items = !q
-    ? base
-    : base.filter((p) =>
-        (p.name || "").toLowerCase().includes(q) ||
-        (p.sku || "").toLowerCase().includes(q)
-      );
+  // если поиск пустой — возвращаем пользователя туда, где он был (главная/категории)
+  if (!q) {
+    // по умолчанию отправляем на главную
+    show("homeView");
+    return;
+  }
+
+  // глобальный поиск по всем товарам (вне зависимости от категории/подкатегории)
+  const items = products.filter((p) =>
+    (p.name || "").toLowerCase().includes(q) ||
+    (p.sku || "").toLowerCase().includes(q)
+  );
+
+  // показываем результаты как список товаров
+  currentCategory = "Все";
+  currentSubcategory = null;
+  el("currentCategoryTitle").textContent = `Результаты поиска: “${q}”`;
 
   renderProducts(items);
+  show("listView");
 });
+
 
 /* ---------- Helpers ---------- */
 

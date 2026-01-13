@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,90 +14,89 @@
 
 <body class="bg-gray-50 text-gray-900">
 
-<header class="bg-white border-b sticky top-0 z-10">
-  <div class="max-w-6xl mx-auto px-4 py-4 flex items-center gap-4">
-    <button id="homeBtn" class="font-bold text-lg hover:opacity-80">FLEXYPRO</button>
+  <header class="bg-white border-b sticky top-0 z-10">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center gap-4">
+      <button id="homeBtn" class="font-bold text-lg hover:opacity-80">FLEXYPRO</button>
 
-    <!-- Поиск показываем только в режиме списка товаров -->
-    <input id="search"
-           class="ml-auto w-full max-w-sm border rounded-xl px-3 py-2 hidden"
-           placeholder="Поиск по названию или артикулу">
-  </div>
-</header>
+      <!-- Поиск показываем только в режиме списка товаров -->
+      <input id="search" class="ml-auto w-full max-w-sm border rounded-xl px-3 py-2"
+        placeholder="Поиск по названию или артикулу">
 
-<main class="max-w-6xl mx-auto px-4 py-6">
-  <div id="status" class="text-sm text-red-600 mb-4"></div>
-
-  <!-- Главная: разделы -->
-  <section id="homeView">
-    <div class="flex items-center justify-between gap-3 mb-4">
-      <h2 class="text-xl font-semibold">Разделы</h2>
     </div>
+  </header>
 
-    <div id="categoriesView" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-  </section>
+  <main class="max-w-6xl mx-auto px-4 py-6">
+    <div id="status" class="text-sm text-red-600 mb-4"></div>
 
-  <!-- Подразделы -->
-  <section id="subcategoriesView" class="hidden">
-    <div class="flex items-center justify-between gap-3 mb-4">
-      <button id="backToCategoriesBtn2" class="text-blue-600 text-sm hover:underline">
-        ← К разделам
+    <!-- Главная: разделы -->
+    <section id="homeView">
+      <div class="flex items-center justify-between gap-3 mb-4">
+        <h2 class="text-xl font-semibold">Разделы</h2>
+      </div>
+
+      <div id="categoriesView" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+
+    <!-- Подразделы -->
+    <section id="subcategoriesView" class="hidden">
+      <div class="flex items-center justify-between gap-3 mb-4">
+        <button id="backToCategoriesBtn2" class="text-blue-600 text-sm hover:underline">
+          ← К разделам
+        </button>
+        <div id="currentCategoryTitle2" class="text-sm text-gray-600"></div>
+      </div>
+
+      <div id="subcategoriesGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+
+    <!-- Список товаров -->
+    <section id="listView" class="hidden">
+      <div class="flex items-center justify-between gap-3 mb-4">
+        <button id="backToCategoriesBtn" class="text-blue-600 text-sm hover:underline">
+          ← К разделам
+        </button>
+        <div id="currentCategoryTitle" class="text-sm text-gray-600"></div>
+      </div>
+
+      <div id="productsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+
+    <!-- Детальная карточка -->
+    <section id="detailView" class="hidden">
+      <button id="backBtn" class="mb-4 text-blue-600 text-sm hover:underline">
+        ← Назад к товарам
       </button>
-      <div id="currentCategoryTitle2" class="text-sm text-gray-600"></div>
-    </div>
 
-    <div id="subcategoriesGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-  </section>
+      <div class="bg-white rounded-2xl border shadow-sm p-5">
+        <div class="flex flex-col md:flex-row gap-5">
+          <img id="cover" class="w-full md:w-72 h-48 object-cover rounded-xl border bg-gray-100">
 
-  <!-- Список товаров -->
-  <section id="listView" class="hidden">
-    <div class="flex items-center justify-between gap-3 mb-4">
-      <button id="backToCategoriesBtn" class="text-blue-600 text-sm hover:underline">
-        ← К разделам
-      </button>
-      <div id="currentCategoryTitle" class="text-sm text-gray-600"></div>
-    </div>
+          <div class="flex-1">
+            <h1 id="name" class="text-2xl font-semibold"></h1>
+            <div id="sku" class="text-sm text-gray-500 mt-1"></div>
 
-    <div id="productsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-  </section>
+            <div class="mt-4">
+              <div class="text-sm text-gray-500">Цена</div>
+              <div id="price" class="text-3xl font-bold"></div>
+              <div id="currency" class="text-xs text-gray-500"></div>
+            </div>
 
-  <!-- Детальная карточка -->
-  <section id="detailView" class="hidden">
-    <button id="backBtn"
-            class="mb-4 text-blue-600 text-sm hover:underline">
-      ← Назад к товарам
-    </button>
-
-    <div class="bg-white rounded-2xl border shadow-sm p-5">
-      <div class="flex flex-col md:flex-row gap-5">
-        <img id="cover"
-             class="w-full md:w-72 h-48 object-cover rounded-xl border bg-gray-100">
-
-        <div class="flex-1">
-          <h1 id="name" class="text-2xl font-semibold"></h1>
-          <div id="sku" class="text-sm text-gray-500 mt-1"></div>
-
-          <div class="mt-4">
-            <div class="text-sm text-gray-500">Цена</div>
-            <div id="price" class="text-3xl font-bold"></div>
-            <div id="currency" class="text-xs text-gray-500"></div>
-          </div>
-
-          <div class="mt-2 text-xs text-gray-400">
-            Обновлено: <span id="updated"></span>
+            <div class="mt-2 text-xs text-gray-400">
+              Обновлено: <span id="updated"></span>
+            </div>
           </div>
         </div>
+
+        <div class="mt-6">
+          <div id="tabs" class="flex flex-wrap gap-2"></div>
+          <div id="tabContent" class="mt-4"></div>
+        </div>
       </div>
+    </section>
 
-      <div class="mt-6">
-        <div id="tabs" class="flex flex-wrap gap-2"></div>
-        <div id="tabContent" class="mt-4"></div>
-      </div>
-    </div>
-  </section>
+  </main>
 
-</main>
-
-<script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
+
 </html>
