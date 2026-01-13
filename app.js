@@ -36,8 +36,9 @@ function renderCategories() {
   container.innerHTML = CATEGORIES.map((c, idx) => `
     <button class="bg-white border rounded-2xl overflow-hidden text-left hover:shadow-md transition"
             data-cat="${c.key}">
+            
       <img loading="lazy" src="${c.image}"
-           class="w-full h-36 object-cover bg-gray-100" alt="">
+           class="w-full h-36 object-contain bg-gray-100 p-2" alt="">
       <div class="p-4">
         <div class="font-semibold">${escapeHtml(c.title)}</div>
         <div class="text-xs text-gray-500 mt-1" data-count-idx="${idx}">Товаров: …</div>
