@@ -1,0 +1,9 @@
+{
+  "name": "FLEXYPRO Каталог",
+  "short_name": "FLEXYPRO",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#F9FAFB",
+  "theme_color": "#111827",
+  "icons": []
+}

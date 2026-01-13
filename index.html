@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FLEXYPRO — Каталог</title>
+
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#111827">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+<header class="bg-white border-b sticky top-0 z-10">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex items-center gap-4">
+    <div class="font-bold text-lg">FLEXYPRO</div>
+    <input id="search"
+           class="ml-auto w-full max-w-sm border rounded-xl px-3 py-2"
+           placeholder="Поиск по названию или артикулу">
+  </div>
+</header>
+
+<main class="max-w-6xl mx-auto px-4 py-6">
+
+  <!-- Список -->
+  <section id="listView"
+           class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></section>
+
+  <!-- Детальная карточка -->
+  <section id="detailView" class="hidden">
+    <button id="backBtn"
+            class="mb-4 text-blue-600 text-sm hover:underline">
+      ← Назад к каталогу
+    </button>
+
+    <div class="bg-white rounded-2xl border shadow-sm p-5">
+
+      <div class="flex flex-col md:flex-row gap-5">
+        <img id="cover"
+             class="w-full md:w-72 h-48 object-cover rounded-xl border bg-gray-100">
+
+        <div class="flex-1">
+          <h1 id="name" class="text-2xl font-semibold"></h1>
+          <div id="sku" class="text-sm text-gray-500 mt-1"></div>
+
+          <div class="mt-4">
+            <div class="text-sm text-gray-500">Цена</div>
+            <div id="price" class="text-3xl font-bold"></div>
+            <div id="currency" class="text-xs text-gray-500"></div>
+          </div>
+
+          <div class="mt-2 text-xs text-gray-400">
+            Обновлено: <span id="updated"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Вкладки -->
+      <div class="mt-6">
+        <div id="tabs" class="flex flex-wrap gap-2"></div>
+        <div id="tabContent" class="mt-4"></div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

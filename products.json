@@ -1,0 +1,36 @@
+[
+  {
+    "id": "flexy-001",
+    "name": "FLEXYPRO Alpha",
+    "sku": "FP-A-100",
+    "price": 1990,
+    "currency": "EUR",
+    "updatedAt": "2026-01-13",
+    "cover": "https://picsum.photos/seed/a/800/500",
+    "info": "Описание продукта Alpha.\nМатериалы, характеристики, назначение.",
+    "renders": [
+      "https://picsum.photos/seed/ar1/1200/800",
+      "https://picsum.photos/seed/ar2/1200/800"
+    ],
+    "photos": [
+      "https://picsum.photos/seed/ap1/1200/800",
+      "https://picsum.photos/seed/ap2/1200/800"
+    ],
+    "drawings": "https://example.com/drawing-alpha.pdf"
+  },
+  {
+    "id": "flexy-002",
+    "name": "FLEXYPRO Beta",
+    "sku": "FP-B-200",
+    "price": 2490,
+    "currency": "EUR",
+    "updatedAt": "2026-01-10",
+    "cover": "https://picsum.photos/seed/b/800/500",
+    "info": "Описание продукта Beta.",
+    "renders": [],
+    "photos": [
+      "https://picsum.photos/seed/bp1/1200/800"
+    ],
+    "drawings": null
+  }
+]
