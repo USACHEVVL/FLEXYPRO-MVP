@@ -24,7 +24,7 @@ function setStatus(msg) {
 }
 
 function show(viewId) {
-  ["homeView", "listView", "detailView"].forEach(id => el(id)?.classList.add("hidden"));
+  ["homeView", "listView", "detailView"].forEach((id) => el(id)?.classList.add("hidden"));
   el(viewId)?.classList.remove("hidden");
   el("search")?.classList.toggle("hidden", viewId !== "listView");
 }
@@ -35,10 +35,9 @@ function renderCategories() {
 
   container.innerHTML = CATEGORIES.map((c, idx) => `
     <button class="bg-white border rounded-2xl overflow-hidden text-left hover:shadow-md transition"
-            data-cat="${c.key}">
-            
+            data-cat="${escapeHtml(c.key)}">
       <img loading="lazy" src="${c.image}"
-           class="w-full h-36 object-contain bg-gray-100 p-2" alt="">
+           class="w-full aspect-square object-contain bg-gray-100 p-3" alt="">
       <div class="p-4">
         <div class="font-semibold">${escapeHtml(c.title)}</div>
         <div class="text-xs text-gray-500 mt-1" data-count-idx="${idx}">Товаров: …</div>
@@ -46,7 +45,7 @@ function renderCategories() {
     </button>
   `).join("");
 
-  container.querySelectorAll("button[data-cat]").forEach(btn => {
+  container.querySelectorAll("button[data-cat]").forEach((btn) => {
     btn.addEventListener("click", () => openCategory(btn.dataset.cat));
   });
 
@@ -63,7 +62,7 @@ function updateCategoryCounts() {
 
     const count = (c.key === "Все")
       ? products.length
-      : products.filter(p => (p.category || "") === c.key).length;
+      : products.filter((p) => (p.category || "") === c.key).length;
 
     countEl.textContent = `Товаров: ${count}`;
   });
@@ -82,7 +81,7 @@ function openCategory(cat) {
 
 function filterByCategory(items, cat) {
   if (cat === "Все") return [...items];
-  return items.filter(p => (p.category || "") === cat);
+  return items.filter((p) => (p.category || "") === cat);
 }
 
 function renderProducts(items) {
@@ -94,24 +93,24 @@ function renderProducts(items) {
     return;
   }
 
-  grid.innerHTML = items.map(p => `
+  grid.innerHTML = items.map((p) => `
     <button class="bg-white border rounded-2xl p-4 text-left hover:shadow-md transition"
             data-id="${escapeHtml(p.id)}">
       <img loading="lazy" src="${p.cover || ''}"
-           class="w-full h-36 object-cover rounded-xl border bg-gray-100" alt="">
+           class="w-full aspect-square object-contain rounded-xl border bg-gray-100 p-3" alt="">
       <div class="mt-3 font-semibold">${escapeHtml(p.name || '')}</div>
       <div class="text-sm text-gray-500">${escapeHtml(p.sku || '')}</div>
       <div class="mt-2 text-lg font-bold">${formatPrice(p.price)} ${escapeHtml(p.currency || '')}</div>
     </button>
   `).join("");
 
-  grid.querySelectorAll("button[data-id]").forEach(btn => {
+  grid.querySelectorAll("button[data-id]").forEach((btn) => {
     btn.addEventListener("click", () => openProduct(btn.dataset.id));
   });
 }
 
 function openProduct(id) {
-  const p = products.find(x => x.id === id);
+  const p = products.find((x) => x.id === id);
   if (!p) return;
 
   el("cover").src = p.cover || "";
@@ -140,7 +139,7 @@ function renderTabs(p) {
 
   window.currentProduct = p;
 
-  el("tabs").querySelectorAll(".tab").forEach(btn => {
+  el("tabs").querySelectorAll(".tab").forEach((btn) => {
     btn.addEventListener("click", () => setTab(btn.dataset.tab));
   });
 
@@ -148,7 +147,7 @@ function renderTabs(p) {
 }
 
 function setTab(tab) {
-  document.querySelectorAll(".tab").forEach(b => {
+  document.querySelectorAll(".tab").forEach((b) => {
     const active = b.dataset.tab === tab;
     b.classList.toggle("bg-gray-900", active);
     b.classList.toggle("text-white", active);
@@ -165,10 +164,10 @@ function setTab(tab) {
     const arr = p[tab] || [];
     html = arr.length
       ? `<div class="grid sm:grid-cols-2 gap-3">
-           ${arr.map(u => `
+           ${arr.map((u) => `
              <a href="${u}" target="_blank" rel="noopener">
                <img loading="lazy" src="${u}"
-                    class="w-full h-48 object-cover rounded-xl border bg-gray-100" alt="">
+                    class="w-full aspect-square object-contain rounded-xl border bg-gray-100 p-3" alt="">
              </a>
            `).join("")}
          </div>`
@@ -195,10 +194,12 @@ el("search")?.addEventListener("input", (e) => {
   const q = (e.target.value || "").toLowerCase().trim();
   const base = filterByCategory(products, currentCategory);
 
-  const items = !q ? base : base.filter(p =>
-    (p.name || "").toLowerCase().includes(q) ||
-    (p.sku || "").toLowerCase().includes(q)
-  );
+  const items = !q
+    ? base
+    : base.filter((p) =>
+        (p.name || "").toLowerCase().includes(q) ||
+        (p.sku || "").toLowerCase().includes(q)
+      );
 
   renderProducts(items);
 });
@@ -210,14 +211,18 @@ function formatPrice(v) {
 }
 
 function escapeHtml(str) {
-  return String(str).replace(/[&<>"']/g, m => ({
-    "&":"&amp;", "<":"&lt;", ">":"&gt;", "\"":"&quot;", "'":"&#039;"
+  return String(str).replace(/[&<>"']/g, (m) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "\"": "&quot;",
+    "'": "&#039;"
   }[m]));
 }
 
 async function init() {
   setStatus("");
-  renderCategories();     // ✅ рисуем разделы сразу
+  renderCategories(); // рисуем разделы сразу
   show("homeView");
 
   try {
@@ -227,7 +232,6 @@ async function init() {
     products = await res.json();
     updateCategoryCounts();
   } catch (err) {
-    // ✅ покажем причину прямо на странице
     setStatus(`Не удалось загрузить products.json. Проверьте, что файл в корне репозитория и доступен по ссылке /products.json. Детали: ${err.message}`);
   }
 }
