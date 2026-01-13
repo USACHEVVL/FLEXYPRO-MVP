@@ -20,7 +20,6 @@
     ],
     "drawings": "https://example.com/drawings/flexy-001.pdf"
   },
-
   {
     "id": "flexy-002",
     "category": "Решения для натяжных потолков",
@@ -38,7 +37,6 @@
     ],
     "drawings": null
   },
-
   {
     "id": "flexy-003",
     "category": "Решения для гипсокартона",
@@ -56,7 +54,6 @@
     "photos": [],
     "drawings": "https://example.com/drawings/flexy-003.pdf"
   },
-
   {
     "id": "flexy-004",
     "category": "Решения для гипсокартона",
@@ -74,7 +71,6 @@
     ],
     "drawings": null
   },
-
   {
     "id": "flexy-005",
     "category": "Трековое освещение",
@@ -94,7 +90,6 @@
     ],
     "drawings": null
   },
-
   {
     "id": "flexy-006",
     "category": "Комплектующие",
@@ -111,5 +106,28 @@
       "https://picsum.photos/seed/components1p1/1200/1200"
     ],
     "drawings": null
+  }
+
+  {
+    "id": "euro-05",
+    "category": "Решения для натяжных потолков",
+    "subcategory": "Теневые",
+    "name": "EURO 05",
+    "sku": "EURO-05",
+    "price": 250,
+    "currency": "RUB / м.п.",
+    "updatedAt": "2026-01-15",
+    "cover": "./assets/products/euro-05/cover.jpg",
+    "info": "Теневой профиль EURO 05 для натяжных потолков.\n\nХарактеристики:\n• Цвет: чёрный муар\n• Длина профиля: 2000 мм\n• Теневой зазор: 7.7 мм\n• Цена: 250 ₽ / погонный метр",
+    "renders": [
+      "./assets/products/euro-05/renders/render-1.jpg",
+      "./assets/products/euro-05/renders/render-2.jpg"
+    ],
+    "photos": [
+      "./assets/products/euro-05/photos/photo-1.jpg",
+      "./assets/products/euro-05/photos/photo-2.jpg",
+      "./assets/products/euro-05/photos/photo-3.jpg"
+    ],
+    "drawings": "./assets/products/euro-05/drawings/euro-05.pdf"
   }
 ]
