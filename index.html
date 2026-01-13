@@ -10,32 +10,51 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-50 text-gray-900">
 
 <header class="bg-white border-b sticky top-0 z-10">
   <div class="max-w-6xl mx-auto px-4 py-4 flex items-center gap-4">
-    <div class="font-bold text-lg">FLEXYPRO</div>
+    <button id="homeBtn" class="font-bold text-lg hover:opacity-80">FLEXYPRO</button>
+
+    <!-- Поиск показываем только в режиме списка товаров -->
     <input id="search"
-           class="ml-auto w-full max-w-sm border rounded-xl px-3 py-2"
+           class="ml-auto w-full max-w-sm border rounded-xl px-3 py-2 hidden"
            placeholder="Поиск по названию или артикулу">
   </div>
 </header>
 
 <main class="max-w-6xl mx-auto px-4 py-6">
 
-  <!-- Список -->
-  <section id="listView"
-           class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></section>
+  <!-- Главная: разделы -->
+  <section id="homeView">
+    <div class="flex items-center justify-between gap-3 mb-4">
+      <h2 class="text-xl font-semibold">Разделы</h2>
+    </div>
+
+    <div id="categoriesView" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+  </section>
+
+  <!-- Список товаров -->
+  <section id="listView" class="hidden">
+    <div class="flex items-center justify-between gap-3 mb-4">
+      <button id="backToCategoriesBtn" class="text-blue-600 text-sm hover:underline">
+        ← К разделам
+      </button>
+      <div id="currentCategoryTitle" class="text-sm text-gray-600"></div>
+    </div>
+
+    <div id="productsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+  </section>
 
   <!-- Детальная карточка -->
   <section id="detailView" class="hidden">
     <button id="backBtn"
             class="mb-4 text-blue-600 text-sm hover:underline">
-      ← Назад к каталогу
+      ← Назад к товарам
     </button>
 
     <div class="bg-white rounded-2xl border shadow-sm p-5">
-
       <div class="flex flex-col md:flex-row gap-5">
         <img id="cover"
              class="w-full md:w-72 h-48 object-cover rounded-xl border bg-gray-100">
@@ -56,12 +75,10 @@
         </div>
       </div>
 
-      <!-- Вкладки -->
       <div class="mt-6">
         <div id="tabs" class="flex flex-wrap gap-2"></div>
         <div id="tabContent" class="mt-4"></div>
       </div>
-
     </div>
   </section>
 

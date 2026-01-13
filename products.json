@@ -1,6 +1,7 @@
 [
   {
     "id": "flexy-001",
+    "category": "Решения для натяжных потолков",
     "name": "FLEXYPRO Alpha",
     "sku": "FP-A-100",
     "price": 1990,
@@ -20,6 +21,7 @@
   },
   {
     "id": "flexy-002",
+    "category": "Трековое освещение",
     "name": "FLEXYPRO Beta",
     "sku": "FP-B-200",
     "price": 2490,
