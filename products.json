@@ -117,7 +117,7 @@
     "price": 250,
     "currency": "RUB / м.п.",
     "updatedAt": "2026-01-15",
-    "cover": "./assets/products/euro-05/cover.jpg",
+    "cover": "./assets/products/euro-05/renders/render-1.jpg",
     "info": "Теневой профиль EURO 05 для натяжных потолков.\n\nХарактеристики:\n• Цвет: чёрный муар\n• Длина профиля: 2000 мм\n• Теневой зазор: 7.7 мм\n• Цена: 250 ₽ / погонный метр",
     "renders": [
       "./assets/products/euro-05/renders/render-1.jpg",
