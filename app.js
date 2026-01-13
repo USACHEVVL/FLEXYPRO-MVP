@@ -1,5 +1,6 @@
 const el = (id) => document.getElementById(id);
 
+/** Основные разделы (картинки у тебя в репо) */
 const CATEGORIES = [
   { key: "Все", title: "Все", image: "./assets/categories/all.jpg" },
   { key: "Решения для натяжных потолков", title: "Решения для натяжных потолков", image: "./assets/categories/stretch.jpg" },
@@ -14,8 +15,33 @@ const CATEGORIES = [
   { key: "INTRA SERIES", title: "INTRA SERIES", image: "./assets/categories/intra.jpg" }
 ];
 
+/** Подкатегории только для двух разделов */
+const SUBCATEGORIES = {
+  "Решения для натяжных потолков": [
+    "Бесщелевые",
+    "Теневые",
+    "Классические",
+    "Световые",
+    "Контурные",
+    "Карнизные",
+    "Многоуровневые",
+    "Трековые",
+    "Нишевые",
+    "Парящие",
+    "Другие"
+  ],
+  "Решения для гипсокартона": [
+    "Теневые",
+    "Световые",
+    "Плинтусы",
+    "Контурные",
+    "Парящие"
+  ]
+};
+
 let products = [];
 let currentCategory = "Все";
+let currentSubcategory = null;
 
 function setStatus(msg) {
   const s = el("status");
@@ -24,10 +50,16 @@ function setStatus(msg) {
 }
 
 function show(viewId) {
-  ["homeView", "listView", "detailView"].forEach((id) => el(id)?.classList.add("hidden"));
+  ["homeView", "subcategoriesView", "listView", "detailView"].forEach((id) =>
+    el(id)?.classList.add("hidden")
+  );
   el(viewId)?.classList.remove("hidden");
+
+  // поиск показываем только в списке товаров
   el("search")?.classList.toggle("hidden", viewId !== "listView");
 }
+
+/* ---------- Главная: разделы ---------- */
 
 function renderCategories() {
   const container = el("categoriesView");
@@ -46,7 +78,7 @@ function renderCategories() {
   `).join("");
 
   container.querySelectorAll("button[data-cat]").forEach((btn) => {
-    btn.addEventListener("click", () => openCategory(btn.dataset.cat));
+    btn.addEventListener("click", () => onCategoryClick(btn.dataset.cat));
   });
 
   updateCategoryCounts();
@@ -60,28 +92,94 @@ function updateCategoryCounts() {
     const countEl = container.querySelector(`[data-count-idx="${idx}"]`);
     if (!countEl) return;
 
-    const count = (c.key === "Все")
-      ? products.length
-      : products.filter((p) => (p.category || "") === c.key).length;
+    let count = 0;
+    if (c.key === "Все") count = products.length;
+    else count = products.filter((p) => (p.category || "") === c.key).length;
 
     countEl.textContent = `Товаров: ${count}`;
   });
 }
 
-function openCategory(cat) {
+function onCategoryClick(cat) {
   currentCategory = cat;
-  el("currentCategoryTitle").textContent = (cat === "Все") ? "Все товары" : cat;
+  currentSubcategory = null;
 
-  const list = filterByCategory(products, cat);
+  // Если есть подкатегории — открываем экран подкатегорий
+  if (SUBCATEGORIES[cat]) {
+    openSubcategories(cat);
+    return;
+  }
+
+  // Иначе открываем список товаров как раньше
+  openProducts(cat, null);
+}
+
+/* ---------- Подкатегории ---------- */
+
+function openSubcategories(cat) {
+  el("currentCategoryTitle2").textContent = cat;
+
+  const grid = el("subcategoriesGrid");
+  if (!grid) return;
+
+  const subs = SUBCATEGORIES[cat] || [];
+
+  grid.innerHTML = subs.map((s) => `
+    <button class="bg-white border rounded-2xl p-4 text-left hover:shadow-md transition"
+            data-sub="${escapeHtml(s)}">
+      <div class="font-semibold">${escapeHtml(s)}</div>
+      <div class="text-xs text-gray-500 mt-1" data-sub-count="${escapeHtml(s)}">Товаров: …</div>
+    </button>
+  `).join("");
+
+  // проставим количества
+  subs.forEach((s) => {
+    const countEl = grid.querySelector(`[data-sub-count="${cssAttrEscape(s)}"]`);
+    if (!countEl) return;
+    const count = products.filter((p) =>
+      (p.category || "") === cat && (p.subcategory || "") === s
+    ).length;
+    countEl.textContent = `Товаров: ${count}`;
+  });
+
+  grid.querySelectorAll("button[data-sub]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const sub = btn.dataset.sub;
+      openProducts(cat, sub);
+    });
+  });
+
+  show("subcategoriesView");
+}
+
+/* ---------- Список товаров ---------- */
+
+function openProducts(cat, sub) {
+  currentCategory = cat;
+  currentSubcategory = sub || null;
+
+  const titleParts = [];
+  if (cat === "Все") titleParts.push("Все товары");
+  else titleParts.push(cat);
+  if (sub) titleParts.push(sub);
+
+  el("currentCategoryTitle").textContent = titleParts.join(" • ");
+
+  const list = filterProducts(products, cat, sub);
   renderProducts(list);
 
   el("search").value = "";
   show("listView");
 }
 
-function filterByCategory(items, cat) {
-  if (cat === "Все") return [...items];
-  return items.filter((p) => (p.category || "") === cat);
+function filterProducts(items, cat, sub) {
+  // "Все" — вообще без фильтра по категории
+  let base = (cat === "Все") ? [...items] : items.filter((p) => (p.category || "") === cat);
+
+  if (sub) {
+    base = base.filter((p) => (p.subcategory || "") === sub);
+  }
+  return base;
 }
 
 function renderProducts(items) {
@@ -108,6 +206,8 @@ function renderProducts(items) {
     btn.addEventListener("click", () => openProduct(btn.dataset.id));
   });
 }
+
+/* ---------- Деталка ---------- */
 
 function openProduct(id) {
   const p = products.find((x) => x.id === id);
@@ -185,14 +285,20 @@ function setTab(tab) {
   el("tabContent").innerHTML = html;
 }
 
-/* handlers */
+/* ---------- Handlers ---------- */
+
+// Кнопки назад
 el("backToCategoriesBtn")?.addEventListener("click", () => show("homeView"));
+el("backToCategoriesBtn2")?.addEventListener("click", () => show("homeView"));
+
 el("backBtn")?.addEventListener("click", () => show("listView"));
+
 el("homeBtn")?.addEventListener("click", () => show("homeView"));
 
+// Поиск — ищем в текущем (категория + подкатегория)
 el("search")?.addEventListener("input", (e) => {
   const q = (e.target.value || "").toLowerCase().trim();
-  const base = filterByCategory(products, currentCategory);
+  const base = filterProducts(products, currentCategory, currentSubcategory);
 
   const items = !q
     ? base
@@ -204,7 +310,8 @@ el("search")?.addEventListener("input", (e) => {
   renderProducts(items);
 });
 
-/* helpers */
+/* ---------- Helpers ---------- */
+
 function formatPrice(v) {
   if (typeof v !== "number") return "—";
   return v.toLocaleString("ru-RU");
@@ -220,9 +327,16 @@ function escapeHtml(str) {
   }[m]));
 }
 
+// Для безопасного селектора по data-атрибуту
+function cssAttrEscape(s) {
+  return String(s).replace(/"/g, '\\"');
+}
+
+/* ---------- Init ---------- */
+
 async function init() {
   setStatus("");
-  renderCategories(); // рисуем разделы сразу
+  renderCategories(); // разделы рисуем сразу
   show("homeView");
 
   try {
